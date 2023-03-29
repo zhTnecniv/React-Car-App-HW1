@@ -1,0 +1,116 @@
+state = {
+    "id": "001",
+    "type": "A",
+    "value": "aaaaa",
+    "data:": {},
+    "path": ["001"],
+    "children": [
+        {
+            "id": "003",
+            "type": "A",
+            "value": "aaaaa",
+            "data:": {},
+            "path": ["001", "003"],
+            "children": [
+                {
+                    "id": "002",
+                    "type": "A",
+                    "value": "aaaaa",
+                    "data:": {},
+                    "path": ["001", "003", "002"],
+                    "children": []
+                },
+            ]
+        },
+        {
+            "id": "004",
+            "type": "A",
+            "value": "aaaaa",
+            "data:": {},
+            "path": ["001", "004"],
+            "children": [
+                {
+                    "id": "005",
+                    "type": "A",
+                    "value": "aaaaa",
+                    "data:": {},
+                    "path": ["001", "004", "005"],
+                    "children": []
+                },{
+                    "id": "005",
+                    "type": "A",
+                    "value": "aaaaa",
+                    "data:": {},
+                    "path": ["001", "004", "005"],
+                    "children": [
+                        {
+                            "id": "002",
+                            "type": "A",
+                            "value": "aaaaa",
+                            "data:": {},
+                            "path": ["001", "004", "005", "002"],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+
+Use one setState function to update the following:
+    (1) 'state.children[0].children[0].path[1]' from "003" into "004"
+    (2) 'state.children[1].children[1].children[0].path[2]' from "005" into "006", immutably
+
+Answer:
+    (1) this.setState({
+        ...prevState,
+        children: [
+            {
+                ...prevState.children[0],
+                children: [
+                    {
+                        ...prevState.children[0].children[0],
+                        path: [
+                            ...prevState.chilren[0].children[0].path.slice(0,1),
+                            "004",
+                            ...prevState.chilren[0].children[0].path.slice(2),
+                        ]
+                    },
+                    ...prevState.children[0].children.slice(1)
+                ]
+            }
+            ...prevState.children.slice(1)
+        ]
+    })
+
+    (2) this.setState({
+        ...prevState,
+        children: [
+            ...prevState.children.slice(0,1),
+            {
+                ...prevState.children[1],
+                children: [
+                    ...prevState.children[1].children.slice(0,1),
+                    {
+                        ...prevState.children[1].children[1],
+                        children: [
+                            {
+                                ...prevState.children[1].children[1].children[0],
+                                path: [
+                                    ...prevState.children[1].children[1].children[0].path.slice(0,2),
+                                    "006",
+                                    ...prevState.children[1].children[1].children[0].path.slice(3)
+                                ]
+
+                            },
+                            ...prevState.children[1].children[1].children.slice(1)
+                        ]
+                    },
+                    ...prevState.children[1].children.slice(2)
+                ]
+            }
+            ...prevState.children.slice(2),
+        ]
+    })
