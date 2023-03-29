@@ -6,14 +6,16 @@ class MyPureComponent extends React.Component {
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
+        if (Object.keys(this.props).length !== Object.keys(nextProps).length) return true;
         for (const propKey of Object.keys(this.props)) {
             if (!Object.is(this.props[propKey], nextProps[propKey])) return true;
         }
-        // console.log(nextState); // null
-        // console.log(this.state); // null
-        // for (const stateKey of Object.keys(this.state)) {
-        //     if (!Object.is(this.state[stateKey], nextState[stateKey])) return true;
-        // }
+        nextState = nextState || {};
+        this.state = this.state || {};
+        if (Object.keys(this.state).length !== Object.keys(nextState).length) return true;
+        for (const stateKey of Object.keys(this.state)) {
+            if (!Object.is(this.state[stateKey], nextState[stateKey])) return true;
+        }
         return false;
     }
 

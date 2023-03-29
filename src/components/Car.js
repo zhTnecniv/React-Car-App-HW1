@@ -1,8 +1,12 @@
 import React from "react";
 import MyPureComponent from "../baseComponents/MyPureComponent";
+import myMemo from "../hoc/myMemo";
 
 class Car extends React.Component {
 
+    // state = {
+    //     name: "car component"
+    // }
     // shouldComponentUpdate(nextProps, nextState) {
     //     const { make, quantity, id } = this.props.carData;
     //     const {
@@ -34,7 +38,7 @@ class Car extends React.Component {
     }
 }
 
-export default Car;
+export default myMemo(Car);
 
 
 
